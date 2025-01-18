@@ -4,7 +4,7 @@ import PatientList from './PatientList';
 const App = () => {
   return (
     <div>
-      <hi>Patient Information</hi>
+      <h1>Patient Information</h1>
       <PatientList />
     </div>
   );

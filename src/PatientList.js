@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PatientTable from './PatientTable';
+import PatientForm from './PatientForm';
 
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingPatient, setEditingPatient] = useState(null);
 
   // useEffect to fetch data on component mount (for the "Read" operation)
   useEffect(() => {
@@ -12,28 +14,44 @@ const PatientList = () => {
 
   //Fetch Patient List from backend service
   const fetchPatientList = async () => {
-    let isLoading = true;
-
+    setLoading(true);
     try {
       const response = await fetch('http://localhost:8081/patient/data');
-
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
       setPatients(data.patientList);
-      isLoading = false;
     } catch (error) {
       console.log('Error while fetching: ', error);
-      isLoading = false;
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(isLoading);
   };
 
   //Update Patient
-  const updatePatient = () => {};
+  const updatePatient = async (updatePatient) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/patient/${updatePatient.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatePatient),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      fetchPatientList();
+    } catch (error) {
+      console.log('Error updating patients:', error);
+    }
+  };
 
   //Delete Patient
   const deletePatient = () => {};
@@ -44,9 +62,18 @@ const PatientList = () => {
     return (
       <div>
         <h2>Patient List</h2>
-        <div className="patient-list">
-          <PatientTable patients={patients} />
-        </div>
+        {editingPatient ? (
+          <PatientForm
+            patient={editingPatient}
+            onSubmit={updatePatient}
+            onCancel={() => setEditingPatient(null)}
+          />
+        ) : (
+          <PatientTable
+            patients={patients}
+            onUpdate={(patient) => setEditingPatient(patient)}
+          />
+        )}
       </div>
     );
   }
