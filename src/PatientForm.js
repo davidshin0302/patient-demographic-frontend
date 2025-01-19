@@ -22,7 +22,7 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <fieldset>
         <div>
           <label class="col-form-label mt-4" for="inputDefault">
@@ -31,8 +31,11 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.givenName}
+            name="givenName"
+            value={formData.givenName}
+            onChange={handleChange}
             id="inputDefault"
+            required
           ></input>
         </div>
         <div>
@@ -42,8 +45,11 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.familyName}
+            name="familyName"
+            value={formData.familyName}
+            onChange={handleChange}
             id="inputDefault"
+            required
           ></input>
         </div>
         <div>
@@ -53,8 +59,11 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.dateOfBirth}
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
             id="inputDefault"
+            required
           ></input>
         </div>
         <div>
@@ -64,8 +73,11 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.sex}
+            name="sex"
+            value={formData.sex}
+            onChange={handleChange}
             id="inputDefault"
+            required
           ></input>
         </div>
         <div>
@@ -75,7 +87,9 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.homeAddress}
+            name="homeAddress"
+            value={formData.homeAddress}
+            onChange={handleChange}
             id="inputDefault"
           ></input>
         </div>
@@ -86,7 +100,9 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            placeholder={patient.phoneNumber}
+            name="phoneNUmber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
             id="inputDefault"
           ></input>
         </div>

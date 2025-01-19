@@ -31,6 +31,7 @@ const PatientList = () => {
 
   //Update Patient
   const updatePatient = async (updatePatient) => {
+    console.log(updatePatient);
     try {
       const response = await fetch(
         `http://localhost:8081/patient/${updatePatient.id}`,
