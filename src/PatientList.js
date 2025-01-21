@@ -16,7 +16,7 @@ const PatientList = () => {
   const fetchPatientList = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/patient');
+      const response = await fetch('http://localhost:8081/patients');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -31,10 +31,9 @@ const PatientList = () => {
 
   //Update Patient
   const updatePatient = async (updatePatient) => {
-    console.log(updatePatient);
     try {
       const response = await fetch(
-        `http://localhost:8081/patient/${updatePatient.id}`,
+        `http://localhost:8081/patient/update/${updatePatient.id}`,
         {
           method: 'PUT',
           headers: {
