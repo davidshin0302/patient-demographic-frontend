@@ -16,7 +16,7 @@ const PatientList = () => {
   const fetchPatientList = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8081/patient/data');
+      const response = await fetch('http://localhost:8081/patient');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
