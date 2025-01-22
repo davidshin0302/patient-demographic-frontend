@@ -30,16 +30,16 @@ const PatientList = () => {
   };
 
   //Update Patient
-  const updatePatient = async (updatePatient) => {
+  const updatePatient = async (event) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/patient/update/${updatePatient.id}`,
+        `http://localhost:8081/patient/update/${event.id}`,
         {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatePatient),
+          body: JSON.stringify(event),
         }
       );
 

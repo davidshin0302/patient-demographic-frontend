@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const PatientForm = ({ patient, onSubmit, onCancel }) => {
-  const [formData, setFormDate] = useState({
+  const [formData, setFormData] = useState({
     id: patient.id || '',
     givenName: patient.givenName || '',
     familyName: patient.familyName || '',
@@ -13,12 +13,17 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormDate({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    try {
+      await onSubmit(formData);
+      window.location.href = `/patients`;
+    } catch (error) {
+      console.error('Error Submitting form:', error);
+    }
   };
 
   return (
