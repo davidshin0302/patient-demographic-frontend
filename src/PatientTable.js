@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PatientTable = ({ patients, onUpdate }) => {
+const PatientTable = ({ patients, onUpdate, onDelete }) => {
   return (
     <table class="table table-hover">
       <thead>
@@ -33,7 +33,11 @@ const PatientTable = ({ patients, onUpdate }) => {
               >
                 Edit
               </button>
-              <button type="button" className="btn btn-primary btn-sm">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => onDelete(patient)}
+              >
                 Delete
               </button>
             </td>

@@ -30,16 +30,16 @@ const PatientList = () => {
   };
 
   //Update Patient
-  const updatePatient = async (event) => {
+  const updatePatient = async (patient) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/patient/update/${event.id}`,
+        `http://localhost:8081/patient/update/${patient.id}`,
         {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(event),
+          body: JSON.stringify(patient),
         }
       );
 
@@ -54,7 +54,28 @@ const PatientList = () => {
   };
 
   //Delete Patient
-  const deletePatient = () => {};
+  const deletePatient = async (patient) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/patient/delete/${patient.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(patient),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      fetchPatientList();
+    } catch (error) {
+      console.log('Error deleting patient:', error);
+    }
+  };
 
   if (loading) {
     return <p>loading...</p>;
@@ -72,6 +93,7 @@ const PatientList = () => {
           <PatientTable
             patients={patients}
             onUpdate={(patient) => setEditingPatient(patient)}
+            onDelete={deletePatient}
           />
         )}
       </div>
