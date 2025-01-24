@@ -20,7 +20,7 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
     e.preventDefault();
     try {
       await onSubmit(formData);
-      window.location.href = `/patients`;
+      window.location.href = `/`;
     } catch (error) {
       console.error('Error Submitting form:', error);
     }
