@@ -105,7 +105,7 @@ const PatientForm = ({ patient, onSubmit, onCancel }) => {
           <input
             type="text"
             class="form-control"
-            name="phoneNUmber"
+            name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
             id="inputDefault"
