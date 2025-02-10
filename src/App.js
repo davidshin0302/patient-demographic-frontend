@@ -1,12 +1,20 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PatientList from './PatientList';
+import AddDrNote from './AddDrNote';
+import Navbar from './Navbar';
 
 const App = () => {
   return (
-    <div>
-      <h1>Patient Information</h1>
-      <PatientList />
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<PatientList />} />
+          <Route path="/drnotes" element={<AddDrNote />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
