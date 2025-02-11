@@ -10,14 +10,14 @@ const AddDrNote = () => {
   const fetchDrNotes = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8082/patHistory/get/drnotes'
+        'http://localhost:8082/patHistory/get/doctornotes'
       );
       if (!response.ok) {
         throw new Error(`HTTp error, status: ${response.status}`);
       }
       const data = await response.json();
       console.log(data);
-      setDrNotes(data.drNoteList);
+      setDrNotes(data.doctorNotes);
     } catch (error) {
       console.log('Error while fetching: ', error);
     }
@@ -29,11 +29,11 @@ const AddDrNote = () => {
         <div className="row">
           <div className="col-auto mr-auto">
             <label for="exampleSelect1" class="form-label mt-4">
-              Example select
+              List of Patient IDs
             </label>
             <select class="form-select" id="exampleSelect1">
               {drNotes.map((drNote, index) => (
-                <option>drNote.patId</option>
+                <option>{drNote.patId}</option>
               ))}
             </select>
           </div>
@@ -41,7 +41,7 @@ const AddDrNote = () => {
         <div className="row">
           <div className="col-md-6">
             <label htmlFor="exampleTextarea" className="form-label mt-4">
-              Example textarea
+              Enter Patient Notes
             </label>
             <textarea
               className="form-control"
