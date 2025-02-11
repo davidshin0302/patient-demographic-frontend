@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from 'react';
 
 const AddDrNote = () => {
-  const [patIds, setPatIds] = useState([]);
+  const [drNotes, setDrNotes] = useState([]);
 
   useEffect(() => {
-    fetchPatIds();
+    fetchDrNotes();
   });
 
-  const fetchPatIds = async () => {
-    // try{
-    //   const response = await fetch()
-    // }
+  const fetchDrNotes = async () => {
+    try {
+      const response = await fetch(
+        'http://localhost:8082/patHistory/get/drnotes'
+      );
+      if (!response.ok) {
+        throw new Error(`HTTp error, status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      setDrNotes(data.drNoteList);
+    } catch (error) {
+      console.log('Error while fetching: ', error);
+    }
   };
 
   return (
@@ -22,11 +32,9 @@ const AddDrNote = () => {
               Example select
             </label>
             <select class="form-select" id="exampleSelect1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              {drNotes.map((drNote, index) => (
+                <option>drNote.patId</option>
+              ))}
             </select>
           </div>
         </div>
