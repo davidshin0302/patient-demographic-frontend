@@ -13,8 +13,8 @@ const Navbar = () => {
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <Link to="/drnotes" class="nav-link active">
-                Home
+              <Link to="/patient-records" class="nav-link active">
+                Patient Records
                 <span class="visually-hidden">(current)</span>
               </Link>
             </li>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PatientList from './PatientList';
-import AddDrNote from './AddDrNote';
+import ViewPatientRecords from './ViewPatientRecords';
 import Navbar from './Navbar';
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<PatientList />} />
-          <Route path="/drnotes" element={<AddDrNote />} />
+          <Route path="/patient-records" element={<ViewPatientRecords />} />
         </Routes>
       </div>
     </Router>
