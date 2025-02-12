@@ -5,7 +5,7 @@ const AddDrNote = () => {
 
   useEffect(() => {
     fetchDrNotes();
-  });
+  }, []);
 
   const fetchDrNotes = async () => {
     try {
