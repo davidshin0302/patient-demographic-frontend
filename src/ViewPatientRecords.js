@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ViewPatientRecords = () => {
   const [patientRecords, setPatientRecords] = useState([]);
@@ -42,19 +43,24 @@ const ViewPatientRecords = () => {
             <div className="card-header">Patient ID: {patientRecord.patId}</div>
             {patientRecord.clinicalNotes.map((clinicalNote, index) => (
               <div key={index} className="card-body">
-                <h6 className="card-title">Note {index + 1}</h6>{' '}
+                <h6 className="card-title">Patient Record #{index + 1}</h6>{' '}
                 <div className="list-group">
-                  <a
-                    href="#"
+                  <Link
                     className="list-group-item list-group-item-action flex-column align-items-start"
+                    to={{
+                      pathname: `/patient-records/update/${[patientRecord.patId]}`,
+                      state: { patientRecord: patientRecord },
+                    }}
                   >
                     <div className="d-flex w-100 justify-content-between">
-                      <p class="mb-1">{clinicalNote.note}</p>
+                      <div className="col-md-9">
+                        <p class="mb-1 text-break">{clinicalNote.note}</p>
+                      </div>
                       <small className="text-muted">
                         <small class="text-muted">{clinicalNote.date}</small>
                       </small>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
