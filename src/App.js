@@ -10,14 +10,16 @@ const App = () => {
     <Router>
       <div>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<PatientList />} />
-          <Route path="/patient-records" element={<ViewPatientRecords />} />
-          <Route
-            path="/patient-records/update/:id"
-            element={<PatientRecordForm />}
-          />
-        </Routes>
+        <div className="mt-3">
+          <Routes>
+            <Route path="/" element={<PatientList />} />
+            <Route path="/patient-records" element={<ViewPatientRecords />} />
+            <Route
+              path="/patient-records/update"
+              element={<PatientRecordForm />}
+            />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

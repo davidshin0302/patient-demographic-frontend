@@ -19,7 +19,6 @@ const ViewPatientRecords = () => {
         throw new Error(`HTTp error, status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data.patientRecords);
 
       setPatientRecords(data.patientRecords);
     } catch (error) {
@@ -46,10 +45,10 @@ const ViewPatientRecords = () => {
                 <h6 className="card-title">Patient Record #{index + 1}</h6>{' '}
                 <div className="list-group">
                   <Link
-                    className="list-group-item list-group-item-action flex-column align-items-start"
+                    className="list-group-item ..."
                     to={{
-                      pathname: `/patient-records/update/${[patientRecord.patId]}`,
-                      state: { patientRecord: patientRecord },
+                      pathname: `/patient-records/update`,
+                      search: `?patId=${patientRecord.patId}&index=${index}&note=${encodeURIComponent(clinicalNote.note)}`, // Keep this for patId as good practice
                     }}
                   >
                     <div className="d-flex w-100 justify-content-between">

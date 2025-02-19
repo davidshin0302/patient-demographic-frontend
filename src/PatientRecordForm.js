@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const PatientRecordForm = ({ patient, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
-    id: patient.id || '',
-    givenName: patient.givenName || '',
-    familyName: patient.familyName || '',
-    dateOfBirth: patient.dateOfBirth || '',
-    sex: patient.sex || '',
-    homeAddress: patient.homeAddress || '',
-    phoneNumber: patient.phoneNumber || '',
-  });
+const PatientRecordForm = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [index, setIndex] = useState(null);
+  const [patId, setPatId] = useState(null);
+  const [formData, setFormData] = useState(null);
+
+  useEffect(() => {
+    const patId = searchParams.get('patId');
+    const index = searchParams.get('index');
+    const clinicalNote = searchParams.get('note');
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().slice(0, 10);
+
+    if (!patId) {
+      return navigate('/patient-records'); // Redirect if patId is missing
+    }
+
+    setFormData({
+      date: formattedDate,
+      note: decodeURIComponent(clinicalNote), // Decode the clinicalNote
+    });
+    setPatId(patId);
+    setIndex(index);
+  }, [searchParams, navigate]); // Dependencies are crucial
+
+  if (formData === null) {
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,105 +38,76 @@ const PatientRecordForm = ({ patient, onSubmit, onCancel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const url = `http://localhost:8082/patHistory/update/${encodeURIComponent(patId)}?index=${encodeURIComponent(index)}`;
     try {
-      await onSubmit(formData);
-      window.location.href = `/`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json(); // Try to get error details from the server
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`
+        ); // Include error message
+      }
+      const data = await response.json();
+      console.log(data);
+      // Handle successful update (e.g., redirect)
+      console.log('Patient record updated successfully!');
+      navigate('/patient-records');
     } catch (error) {
-      console.error('Error Submitting form:', error);
+      console.error('Error updating patient record:', error);
+      // Display error message to the user (e.g., using an alert or setting an error state)
+      alert(error.message); // Example: Display an alert
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/patient-records'); // Or wherever you want to redirect
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
         <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            Given Name
+          <label className="col-form-label mt-4" htmlFor="patId">
+            Patient Id:
           </label>
           <input
             type="text"
-            class="form-control"
-            name="givenName"
-            value={formData.givenName}
-            onChange={handleChange}
-            id="inputDefault"
+            className="form-control"
+            name="patId" // Important: match the name to formData keys
+            value={patId || ''} // Handle potential undefined values
+            id="patId" // Use htmlFor/id for accessibility
+            onChange={() => console.log()}
             required
-          ></input>
+          />
         </div>
         <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            Family Name
+          <label for="exampleTextarea" class="form-label mt-4">
+            Patient Record Note
           </label>
-          <input
+          <textarea
             type="text"
             class="form-control"
-            name="familyName"
-            value={formData.familyName}
+            id="note"
+            rows="3"
+            name="note"
+            value={formData.note || ''}
             onChange={handleChange}
-            id="inputDefault"
-            required
-          ></input>
-        </div>
-        <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            dateOfBirth
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            name="dateOfBirth"
-            value={formData.dateOfBirth}
-            onChange={handleChange}
-            id="inputDefault"
-            required
-          ></input>
-        </div>
-        <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            sex
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            name="sex"
-            value={formData.sex}
-            onChange={handleChange}
-            id="inputDefault"
-            required
-          ></input>
-        </div>
-        <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            home Address
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            name="homeAddress"
-            value={formData.homeAddress}
-            onChange={handleChange}
-            id="inputDefault"
-          ></input>
-        </div>
-        <div>
-          <label class="col-form-label mt-4" for="inputDefault">
-            phone Number
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            id="inputDefault"
-          ></input>
+          ></textarea>
         </div>
       </fieldset>
-      <fieldset class="mt-4" style={{ display: 'flex', gap: '8px' }}>
-        <button type="submit" class="btn btn-info">
+      <fieldset className="mt-4" style={{ display: 'flex', gap: '8px' }}>
+        <button type="submit" className="btn btn-info">
           Submit
         </button>
-        <button type="button" class="btn btn-light" onClick={onCancel}>
+        <button type="button" className="btn btn-light" onClick={handleCancel}>
           Cancel
         </button>
       </fieldset>
