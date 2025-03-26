@@ -21,7 +21,6 @@ const PatientRiskLevel = () => {
         throw new Error(`HTTp error, status: ${response.status}`);
       }
       const data = await response.json();
-
       setPatientRecords(data.patientRecords);
     } catch (error) {
       console.log('Error while fetching: ', error);
@@ -36,13 +35,18 @@ const PatientRiskLevel = () => {
     try {
       const response = await fetch('http://localhost:8080/assess' + endPoint);
       if (!response.ok) {
-        throw new Error(`HTTp error, status: ${response.status}`);
+        if (response.status === 404) {
+          setPatientRiskLevelMessage('Patient Not Found');
+        } else {
+          throw new Error(`HTTp error, status: ${response.status}`);
+        }
+      } else {
+        const data = await response.text();
+        setPatientRiskLevelMessage(data);
       }
-      const data = await response.text();
-
-      setPatientRiskLevelMessage(data);
     } catch (error) {
       console.log('Error while fetching: ', error);
+      setPatientRiskLevelMessage('An error occurred while fetching data.');
     } finally {
       setLoading(false);
     }
