@@ -18,6 +18,12 @@ const Navbar = () => {
                 <span class="visually-hidden">(current)</span>
               </Link>
             </li>
+            <li class="nav-item">
+              <Link to="/patient-risk-level" class="nav-link active">
+                Patient Risk level Assessment
+                <span class="visually-hidden">(current)</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

@@ -21,11 +21,11 @@ const PatientRecordForm = () => {
 
     setFormData({
       date: formattedDate,
-      note: decodeURIComponent(clinicalNote), // Decode the clinicalNote
+      note: decodeURIComponent(clinicalNote),
     });
     setPatId(patId);
     setIndex(index);
-  }, [searchParams, navigate]); // Dependencies are crucial
+  }, [searchParams, navigate]);
 
   if (formData === null) {
     return <div>Loading...</div>;
@@ -53,22 +53,18 @@ const PatientRecordForm = () => {
         const errorData = await response.json(); // Try to get error details from the server
         throw new Error(
           `HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`
-        ); // Include error message
+        );
       }
       const data = await response.json();
-      console.log(data);
-      // Handle successful update (e.g., redirect)
-      console.log('Patient record updated successfully!');
       navigate('/patient-records');
     } catch (error) {
       console.error('Error updating patient record:', error);
-      // Display error message to the user (e.g., using an alert or setting an error state)
-      alert(error.message); // Example: Display an alert
+      alert(error.message);
     }
   };
 
   const handleCancel = () => {
-    navigate('/patient-records'); // Or wherever you want to redirect
+    navigate('/patient-records');
   };
 
   return (
@@ -81,9 +77,9 @@ const PatientRecordForm = () => {
           <input
             type="text"
             className="form-control"
-            name="patId" // Important: match the name to formData keys
-            value={patId || ''} // Handle potential undefined values
-            id="patId" // Use htmlFor/id for accessibility
+            name="patId"
+            value={patId || ''}
+            id="patId"
             onChange={() => console.log()}
             required
           />

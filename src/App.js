@@ -4,6 +4,7 @@ import PatientList from './PatientList';
 import ViewPatientRecords from './ViewPatientRecords';
 import Navbar from './Navbar';
 import PatientRecordForm from './PatientRecordForm';
+import PatientRiskLevel from './PatientRiskLevel';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
               path="/patient-records/update"
               element={<PatientRecordForm />}
             />
+            <Route path="/patient-risk-level" element={<PatientRiskLevel />} />
           </Routes>
         </div>
       </div>
